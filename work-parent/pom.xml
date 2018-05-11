@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>exhibition-parent</artifactId>
+        <groupId>com.kalix.exhibition</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kalix.exhibition.work</groupId>
+    <artifactId>work-parent</artifactId>
+    <name>Kalix Exhibition Work Parent</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>exhibition-work-entities</module>
+        <module>exhibition-work-api</module>
+        <module>exhibition-work-biz</module>
+        <module>exhibition-work-dao</module>
+        <module>exhibition-work-rest</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kalix.exhibition.work</groupId>
+                <artifactId>exhibition-work-entities</artifactId>
+                <version>${project.monitor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kalix.exhibition.work</groupId>
+                <artifactId>exhibition-work-api</artifactId>
+                <version>${project.monitor.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

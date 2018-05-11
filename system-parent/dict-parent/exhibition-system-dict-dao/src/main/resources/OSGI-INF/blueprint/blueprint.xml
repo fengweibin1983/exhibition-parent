@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- default-activation="lazy" -->
+<blueprint xmlns:jpa="http://aries.apache.org/xmlns/jpa/v2.0.0"
+           xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.2.0"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <jpa:enable/>
+    <tx:enable-annotations/>
+
+    <!--字典dao-->
+    <service id="exhibitionDictBeanDao" ref="exhibitionDictBeanDaoImpl" interface="com.kalix.exhibition.system.dict.api.dao.IExhibitionDictBeanDao"/>
+
+    <bean id="exhibitionDictBeanDaoImpl"
+          class="com.kalix.exhibition.system.dict.dao.ExhibitionDictBeanDaoImpl"> <!--init-method="init">-->
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+
+</blueprint>
+

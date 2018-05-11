@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+    <reference id="exhibitionDictBeanService"
+               interface="com.kalix.exhibition.system.dict.api.biz.IExhibitionDictBeanService"/>
+    <camelContext id="exhibitionDictCamel" xmlns="http://camel.apache.org/schema/blueprint">
+
+        <restConfiguration component="servlet" bindingMode="json">
+            <dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
+        </restConfiguration>
+
+        <rest path="/exhibition/dicts" consumes="application/json;charset=utf-8" produces="application/json">
+            <description>audit rest service</description>
+
+            <get id="route-getAllExhibitionDict" outType="com.kalix.framework.core.api.persistence.JsonData">
+                <description>Find all ExhibitionDict</description>
+                <to uri="bean:exhibitionDictBeanService?method=getAllEntityByQuery(${header.page},${header.limit},${header.jsonStr},${header.sort})"/>
+            </get>
+
+            <post id="route-addExhibitionDict" type="com.kalix.exhibition.system.dict.entities.ExhibitionDictBean"
+                  outType="com.kalix.framework.core.api.persistence.JsonStatus">
+                <description>Create a ExhibitionDict</description>
+                <to uri="bean:exhibitionDictBeanService?method=saveEntity"/>
+            </post>
+        </rest>
+        <rest path="/exhibition/dicts/{id}" consumes="application/json;charset=utf-8" produces="application/json">
+
+            <get id="route-getExhibitionDict" type="com.kalix.exhibition.system.dict.entities.ExhibitionDictBean">
+                <description>Find ExhibitionDict by id</description>
+                <to uri="bean:exhibitionDictBeanService?method=getEntity(${header.id})"/>
+            </get>
+
+            <put id="route-updateExhibitionDict" type="com.kalix.exhibition.system.dict.entities.ExhibitionDictBean"
+                 outType="com.kalix.framework.core.api.persistence.JsonStatus">
+                <description>Updates a ExhibitionDict</description>
+                <to uri="bean:exhibitionDictBeanService?method=updateEntity"/>
+            </put>
+
+            <delete id="route-deleteExhibitionDict"
+                    outType="com.kalix.framework.core.api.persistence.JsonStatus">
+                <description>Delete a ExhibitionDict</description>
+                <to uri="bean:exhibitionDictBeanService?method=deleteEntity(${header.id})"/>
+            </delete>
+        </rest>
+        <rest path="/exhibition/dicts/cache/list" consumes="application/json;charset=utf-8"
+              produces="application/json;charset=utf-8">
+            <get id="route-getAllExhibitionDictInCache">
+                <description>Find all dicts</description>
+                <to uri="bean:exhibitionDictBeanService?method=getAllEntity()"/>
+            </get>
+        </rest>
+        <rest path="/monitor/dicts/types/list" consumes="application/json;charset=utf-8"
+              produces="application/json;charset=utf-8">
+            <get id="route-getAllMonitorDictTypes">
+                <description>Find all dicts</description>
+                <to uri="bean:monitorDictBeanService?method=getDictTypes(${header.query})"/>
+            </get>
+        </rest>
+    </camelContext>
+</blueprint>
